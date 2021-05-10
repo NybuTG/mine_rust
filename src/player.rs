@@ -1,5 +1,6 @@
 use macroquad::prelude::*;
 
+
 pub struct Player {
     pub move_speed: f32,
     pub mouse_speed: f32,
@@ -14,11 +15,11 @@ pub struct Player {
     pub up: Vec3,
     pub position: Vec3,
     pub last_mouse_position: Vec2,
-    pub grabbed: bool,
 }
 
 impl Player {
-    fn get_camera(&self) -> Camera3D { 
+
+    pub fn get_camera(&self) -> Camera3D { 
         Camera3D {
             position: self.position,
             up: self.up,
@@ -35,19 +36,23 @@ impl Player {
         let delta = get_frame_time();
         
 
+        // Forward
         if is_key_down(KeyCode::W) {
             self.position += self.front * self.move_speed;
 
         }
 
+        // Backwards 
         if is_key_down(KeyCode::S) {
             self.position -= self.front * self.move_speed;
         }
 
+        // Left
         if is_key_down(KeyCode::A) {
             self.position -= self.right * self.move_speed;
         }
 
+        // Right
         if is_key_down(KeyCode::D) {
             self.position += self.right * self.move_speed;
 
@@ -79,13 +84,6 @@ impl Player {
         }
 
         
-        // TODO: (Probably). Might as well remove the get_camera method since it purely returns
-        // some code and nothing more
-        //
-        // Reason to keep it:
-        // Could be useful for a future implemenation of multiple views 
-        // (3rd person from back and front namely)
-        set_camera(&self.get_camera());
     }
 }
 
@@ -99,7 +97,7 @@ the struct called Player.
 impl Default for Player {
     fn default() -> Self {
         Self {
-            move_speed: 0.1,
+            move_speed: 0.15,
             mouse_speed: 0.1,
 
             x: 0.0,
@@ -114,7 +112,6 @@ impl Default for Player {
             up: vec3(0.0, 0.0, 0.0),
             position: vec3(0.0, 1.0, 0.0),
             last_mouse_position: mouse_position().into(),
-            grabbed: true,
         }
     }
 }
