@@ -1,0 +1,9 @@
+Cube (
+    human_readable: "Grass Block",
+    id: "minerust:grass",
+    dynamic: false,
+    texture: "basic.png",
+    break_time: 0.5, // Float
+    effective_tool: "shovel", // Could be hoe, pickaxe etc
+    tool_level: 0, // Minimum tool level: 0 for wood, 1 for stone etc
+)

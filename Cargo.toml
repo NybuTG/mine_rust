@@ -8,4 +8,9 @@ edition = "2018"
 
 [dependencies]
 macroquad = "^0.3"
-rapier3d = {version="*", features=["simd-stable"]}
+rapier3d = {version="*", features=["serde-serialize"]}
+sled = "^0"
+ron = "^0.6"
+rmp-serde = "^0.15"
+serde = "^1"
+thiserror = "^1.0"

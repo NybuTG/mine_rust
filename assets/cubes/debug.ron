@@ -1,0 +1,9 @@
+Cube (
+    human_readable: "ERROR",
+    id: "minerust:error",
+    dynamic: false,
+    texture: "img.png",
+    break_time: 60, // Ticks
+    effective_tool: "null",
+    tool_level: 0
+)
