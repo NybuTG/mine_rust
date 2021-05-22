@@ -17,4 +17,7 @@ pub enum MError {
 
     #[error("I/O Error: {0:?}")]
     IOError(#[from] std::io::Error),
+
+    #[error("Asset Manager Error: {0:?}")]
+    AssetManagerError(#[from] assets_manager::Error),
 }

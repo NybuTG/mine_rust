@@ -1,5 +1,7 @@
+use assets_manager::Handle;
+use dirs;
+// use crate::chunk::{Chunk, CubeArray};
 use crate::cube::Cube;
-
 // use cube::Cube;
 // use macroquad::prelude::*;
 //
@@ -62,6 +64,11 @@ mod error;
 mod savefile;
 
 fn main() {
-    let cubes = Cube::load_all_defs("assets/cubes").unwrap();
-    dbg!(cubes);
+    let cfg_dir = dirs::config_dir().unwrap();
+    std::fs::create_dir(format!("{}/minerust", cfg_dir.to_str().unwrap())).expect("Couldnt create directory");
+
+    // let cubes = Cube::load_all_defs().unwrap();
+    // let grass: Handle<Cube> = cubes.load("grass").expect("Something went fucky wucky");
+    // dbg!(grass);
+
 }

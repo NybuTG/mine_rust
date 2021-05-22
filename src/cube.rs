@@ -1,16 +1,12 @@
+use assets_manager::{Asset, AssetCache, AssetGuard, Handle, loader};
 use macroquad::prelude::*;
 
-use rapier3d::dynamics::{BodyStatus, RigidBodyBuilder, RigidBodySet};
-use rapier3d::geometry::ColliderSet;
-use rapier3d::{geometry::ColliderBuilder, pipeline::PhysicsPipeline};
+// use rapier3d::dynamics::{BodyStatus, RigidBodyBuilder, RigidBodySet};
+// use rapier3d::geometry::ColliderSet;
+// use rapier3d::{geometry::ColliderBuilder, pipeline::PhysicsPipeline};
 
-// pub mod shape_constructor;
-// pub use self::shape_constructor::CubeConstructor;
-use ron::de::{from_reader, from_str};
 use serde::{Deserialize, Serialize};
 use std::fs::read_dir;
-use std::fs::File;
-use std::path::Path;
 
 use crate::error::MResult;
 use std::collections::HashMap;
@@ -59,18 +55,37 @@ pub struct State {
     pub texture_idx: u8,
 }
 
+impl Asset for Cube {
+    
+    /// Extension for the files to look at. Our cube files are a `ron` format, so we want to look
+    /// for those in the assets/cubes folder
+    const EXTENSION: &'static str = "ron";
+
+    /// Serialization format
+    type Loader = loader::RonLoader;
+}
+
+
+
 impl Cube {
     /// Loads cube definitions from the specified directory.
-    pub fn load_all_defs<P: AsRef<Path>>(path: P) -> MResult<HashMap<String, Cube>> {
+    pub fn load_all_defs() -> MResult<AssetCache> {
+        let cache_dir = "../assets/cubes/";
+        let cache = AssetCache::new("../assets/cubes")?;
+
         let mut def_map = HashMap::new();
-        for definition in read_dir(path)? {
-            let file = File::open(definition?.path())?;
-            let cube: Cube = match from_reader(file) {
-                Ok(x) => x,
-                Err(e) => from_str(include_str!("../assets/cubes/debug.ron")).unwrap(),
-            };
-            def_map.insert(cube.id.clone(), cube);
+
+        for definition in read_dir(cache_dir)? {
+            let file = definition?
+                .file_name()
+                .to_str()
+                .unwrap()
+                .replace(".ron", "");
+
+            let cube = cache.load::<Cube>(file.as_str())?;
+
+            def_map.insert(cube.read().id.clone(), cube);
         }
-        Ok(def_map)
+        Ok(cache)
     }
 }

@@ -10,7 +10,8 @@ edition = "2018"
 macroquad = "^0.3"
 rapier3d = {version="*", features=["serde-serialize"]}
 sled = "^0"
-ron = "^0.6"
+assets_manager = {version="^0.4", features=["ron"] }
 rmp-serde = "^0.15"
 serde = "^1"
 thiserror = "^1.0"
+dirs = "^3.0"
